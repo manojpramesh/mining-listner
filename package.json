@@ -1,0 +1,17 @@
+{
+    "name": "mining-listner",
+    "version": "1.0.0",
+    "description": "mining event listner that will start and stop mining based on the transactions",
+    "main": "miner.js",
+    "scripts": {
+        "start": "node miner.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Manoj P R",
+    "license": "MIT",
+    "dependencies": {
+        "chalk": "^2.0.1",
+        "express": "^4.15.3",
+        "request": "^2.81.0"
+    }
+}
