@@ -3,13 +3,29 @@ const request = require('request');
 const chalk = require('chalk');
 
 const app = express();
-
 const time = chalk.cyan;
 
+/**
+ * Home route
+ */
 app.get('/', function(req, res) {
     res.send('Dark web!!');
 });
 
+/**
+ * Generates DAG for new network
+ */
+jsonrpc.blockNumber((blockNumber) => {
+    if (blockNumber.result == "0x30") {
+        jsonrpc.startMining((status) => {
+            console.log(time(new Date() + " : ") + chalk.yellow("Generating DAG.."));
+        });
+    }
+});
+
+/**
+ * listnes for new transactions and starts/stops mining accordingly
+ */
 let history = 0;
 setInterval(() => {
     jsonrpc.newPendingTransactionFilter((data) => {
@@ -32,10 +48,16 @@ setInterval(() => {
 }, 2000);
 
 
+/**
+ * Makes request to 
+ * 
+ * @param {object} data 
+ * @param {function} callback 
+ */
 var makeCurl = (data, callback) => {
     var options = {
         method: 'POST',
-        url: "http://localhost:8545",
+        url: process.env.rpc || "http://localhost:8545",
         headers: {
             'cache-control': 'no-cache',
             'content-type': 'application/javascript'
@@ -66,6 +88,10 @@ var jsonrpc = {
     // curl -X POST --data '{"jsonrpc":"2.0","method":"miner_stop","params":[1],"id":1}'  
     stopMining: (cb) => {
         return makeCurl('{"jsonrpc":"2.0","method":"miner_stop","params":[1],"id":1}', cb);
+    },
+    // curl
+    blockNumber: (cb) => {
+        return makeCurl('{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":83}', cb);
     }
 };
 
